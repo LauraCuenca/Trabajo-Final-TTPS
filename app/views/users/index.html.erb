@@ -1,0 +1,29 @@
+<div class="container-custom">
+  <h1>Lista de Usuarios</h1> <br>
+  <% @roles_with_users.each do |role_name, users| %>
+    <h2><%= role_name.capitalize %></h2>
+
+    <% if users.any? %>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Fecha de Ingreso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.each do |user| %>
+            <tr>
+              <td><%= user.username %></td>
+              <td><%= user.phone %></td>
+              <td><%= user.joined_on&.strftime("%d/%m/%Y") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No hay usuarios con este rol.</p>
+    <% end %>
+  <% end %>
+</div>
