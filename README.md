@@ -8,11 +8,16 @@ Este proyecto fue desarrollado como parte del trabajo final integrador de la mat
 Este proyecto es una tienda online de ropa que permite a los administradores gestionar productos y empleados, y a los clientes, navegar por los productos y realizar compras.
 
 ### ``` Funcionalidades principales:```
-Gestión de productos: Crear, editar, listar y eliminar productos.
-Gestión de empleados: Registrar empleados y asignarles roles.
-Carrito de compras: Añadir productos, actualizar cantidades y finalizar la compra.
-Autenticación: Sistema de inicio de sesión para empleados,gerentes y administradores.
-Visualización de ventas: Los empleados pueden consultar ventas realizadas.
+Gestión de productos:
+ - Crear, editar, listar y eliminar productos.
+Gestión de empleados: 
+ - Registrar empleados y asignarles roles.
+Carrito de compras: 
+ - Añadir productos, actualizar cantidades y finalizar la compra.
+Autenticación: 
+ - Sistema de inicio de sesión para empleados,gerentes y administradores.
+Visualización de ventas:
+ - Los empleados pueden consultar ventas realizadas.
 
 ### ``` Características Principales```
 Diseño responsive para garantizar una experiencia amigable en dispositivos móviles y de escritorio.
@@ -61,6 +66,10 @@ Inicia el servidor:
 rails server
 Abre tu navegador y accede a http://localhost:3000.
 ```
+### ``` Credenciales para iniciar sesion```
+- Administrador:
+- Gerente:
+- Empleado:
 
 ### ``` Licencia```
 Este proyecto se encuentra bajo la Licencia MIT. Consulta el archivo LICENSE para más información.
