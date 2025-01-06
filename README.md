@@ -9,13 +9,13 @@ Este proyecto es una tienda online de ropa que permite a los administradores ges
 
 ### ``` Funcionalidades principales:```
 Gestión de productos:
- Crear, editar, listar y eliminar productos.
+ Crear, editar, listar y eliminar productos.<br>
 Gestión de empleados:
- Registrar empleados y asignarles roles.
+ Registrar empleados y asignarles roles.<br>
 Carrito de compras:
- Añadir productos, actualizar cantidades y finalizar la compra.
+ Añadir productos, actualizar cantidades y finalizar la compra.<br>
 Autenticación:
- Sistema de inicio de sesión para empleados,gerentes y administradores.
+ Sistema de inicio de sesión para empleados,gerentes y administradores.<br>
 Visualización de ventas:
  Los empleados pueden consultar ventas realizadas.
 
