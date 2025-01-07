@@ -67,7 +67,9 @@ rails server
 Abre tu navegador y accede a http://localhost:3000.
 ```
 ### ``` Credenciales para iniciar sesion```
-- Administrador:
+- Administrador: 
+   usuario: admin@gmail.com
+   contraseña: password
 - Gerente:
 - Empleado:
 
