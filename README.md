@@ -71,7 +71,11 @@ Abre tu navegador y accede a http://localhost:3000.
    usuario: admin@gmail.com
    contraseña: password
 - Gerente:
+  usuario: gerente@gmail.com
+  contraseña: password
 - Empleado:
+  usuario: emp@gmail.com
+  contraseña: password
 
 ### ``` Licencia```
 Este proyecto se encuentra bajo la Licencia MIT. Consulta el archivo LICENSE para más información.
