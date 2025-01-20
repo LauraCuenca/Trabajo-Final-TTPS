@@ -35,10 +35,11 @@
 <div class="form-group">
   <%= f.label :roles, "Roles", class: "control-label" %>
   <%= f.select :role_ids, 
-      Role.where.not(name: 'Administrador').map { |role| [role.name, role.id] }, 
+      @roles.map { |role| [role.name, role.id] }, 
       {}, 
-      { class: "form-control", required: true  } %>
+      { class: "form-control", required: true } %>
 </div>
+
 
   <div class="actions">
     <%= f.submit "Registrar" %>

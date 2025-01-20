@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_29_214347) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_20_151620) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,27 +39,18 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_214347) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "detalle_venta", force: :cascade do |t|
-    t.integer "venta_id", null: false
-    t.integer "producto_id", null: false
-    t.integer "cantidad"
-    t.decimal "precio_venta"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["producto_id"], name: "index_detalle_venta_on_producto_id"
-    t.index ["venta_id"], name: "index_detalle_venta_on_venta_id"
-  end
-
-  create_table "productos", force: :cascade do |t|
-    t.string "nombre"
-    t.text "descripcion"
-    t.decimal "precio"
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "price"
     t.integer "stock"
-    t.string "categoria"
-    t.string "talle"
+    t.string "category"
+    t.string "size"
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "inventory_entry_date"
+    t.datetime "deleted_at"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -73,6 +64,14 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_214347) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.datetime "date"
+    t.integer "employee_id"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -84,6 +83,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_214347) do
     t.string "username"
     t.string "phone"
     t.date "joined_on"
+    t.boolean "active"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -96,16 +96,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_214347) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
-  create_table "venta", force: :cascade do |t|
-    t.datetime "fecha"
-    t.integer "id_empleado"
-    t.string "estado"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "detalle_venta", "productos"
-  add_foreign_key "detalle_venta", "venta", column: "venta_id"
 end

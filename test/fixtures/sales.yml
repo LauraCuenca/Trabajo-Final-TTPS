@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2025-01-02 11:42:46
+  employee_id: 1
+  status: MyString
+
+two:
+  date: 2025-01-02 11:42:46
+  employee_id: 1
+  status: MyString

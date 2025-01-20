@@ -28,20 +28,18 @@
     </button>
 
     <!-- Contenido colapsable -->
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="destacadosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Destacados
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="destacadosDropdown">
-            <li><a class="dropdown-item" href="/productos/nuevos">Nuevos</a></li>
-            <li><a class="dropdown-item" href="/productos/ofertas">Ofertas</a></li>
-          </ul>
-        </li>
+<div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav me-auto">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Productos
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="productosDropdown">
+        <li><a class="dropdown-item" href="/productos/nuevos">Nuevos</a></li>
+        <li><a class="dropdown-item" href="/productos/ofertas">Ofertas</a></li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="mujerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="dropdown-submenu"> 
+          <a class="dropdown-item dropdown-toggle" href="#" id="mujerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Mujer
           </a>
           <ul class="dropdown-menu" aria-labelledby="mujerDropdown">
@@ -50,8 +48,8 @@
           </ul>
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="hombreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="dropdown-submenu"> 
+          <a class="dropdown-item dropdown-toggle" href="#" id="hombreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Hombre
           </a>
           <ul class="dropdown-menu" aria-labelledby="hombreDropdown">
@@ -60,8 +58,8 @@
           </ul>
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="ninosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="dropdown-submenu">
+          <a class="dropdown-item dropdown-toggle" href="#" id="ninosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Niños
           </a>
           <ul class="dropdown-menu" aria-labelledby="ninosDropdown">
@@ -70,51 +68,59 @@
           </ul>
         </li>
       </ul>
+    </li>
+  </ul>
+</div>
 
-      <form class="d-flex mx-auto">
-        <input class="form-control me-2" type="search" placeholder="Buscar productos" aria-label="Buscar">
-        <button class="btn btn-outline-primary" type="submit">Buscar</button>
-      </form>
 
-      <ul class="navbar-nav ms-auto">
+  <form class="d-flex mx-auto">
+   <input class="form-control me-2" type="search" placeholder="Buscar productos" aria-label="Buscar">
+   <button class="btn btn-outline-primary" type="submit">Buscar</button>
+  </form>
+
+
+ <ul class="navbar-nav ms-auto">
         <% if user_signed_in? %>
-          <!-- Si el usuario está autenticado -->
-          <li class="nav-item">
-            <%= link_to 'Cerrar sesión', destroy_user_session_path, data: {turbo_method: :delete}, class: "nav-link" %>
-          </li>
-
-          <!-- Panel de Administración -->
-          <% if current_user.has_role?(:Administrador) %>
+          <% if current_user.has_any_role?(:Administrador, :Gerente, :Empleado) %>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                 Admin de Ventas
+                Admin de Ventas
               </a>
               <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                <%= link_to 'Listar Ventas', "/ventas/listar", class: 'dropdown-item' %>
-                <%= link_to 'Asentar Ventas', "/ventas/asentar", class: 'dropdown-item' %>
-                <%= link_to 'Cancelar Ventas', "/ventas/cancelar", class: 'dropdown-item' %>
+                <%= link_to 'Listar Ventas', sales_path, class: 'dropdown-item' %>
+                <%= link_to 'Asentar Ventas', record_sale_path, class: 'dropdown-item' %>
               </ul>
             </li>
-          <% end %>
-            <!-- Panel de Administración de Productos -->
-            <% if current_user.has_role?(:Administrador) %>
-             <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="adminProductosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-               Admin de Productos
+                Admin de Productos
               </a>
               <ul class="dropdown-menu" aria-labelledby="adminProductosDropdown">
-                <%= link_to 'Listar Productos', "/productos/listar", class: 'dropdown-item' %>
-                <%= link_to 'Agregar Producto', "/productos/agregar", class: 'dropdown-item' %>
-                <%= link_to 'Eliminar Producto', "/productos/eliminar", class: 'dropdown-item' %>
+                <%= link_to 'Agregar Producto', new_product_path, class: 'dropdown-item' %>
+                <%= link_to 'Listar Productos', products_path, class: 'dropdown-item' %>
               </ul>
             </li>
-          <% end %>
-        <% else %>
-          <li class="nav-item">
-          <%= link_to "Iniciar Sesión", new_user_session_path, class: "nav-link" %>
+          <% end %> 
+          <li class="nav-item dropdown"> 
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Usuario
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="userDropdown">
+              <% if current_user.has_any_role?(:Administrador, :Gerente) %>
+                <li><%= link_to 'Registrar usuario', new_user_path, class: "dropdown-item" %></li>
+              <% end %>
+              <li><%= link_to 'Ver Perfil', user_path(current_user), class: "dropdown-item" %></li>
+              <% if current_user.has_role?(:Administrador) %>
+                <li><%= link_to 'Lista de Usuarios', users_path, class: "dropdown-item" %></li>
+              <% end %>
+              <li><%= link_to 'Cerrar sesión', destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %></li>
+            </ul>
           </li>
-        <% end %>
-
+        <% else %> 
+          <li class="nav-item">
+            <%= link_to "Iniciar Sesión", new_user_session_path, class: "nav-link" %>
+          </li>
+        <% end %> 
         <li class="nav-item">
           <a class="nav-link" href="/carrito">
             <i class="fas fa-shopping-cart"></i>

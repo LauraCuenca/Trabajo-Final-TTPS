@@ -64,34 +64,54 @@
   }
 
 /* Estilo para la Navbar */
-  .navbar {
-    background-color: rgb(171, 196, 255); 
-    font-size: 1.2rem;
-  } 
-  .navbar-brand {
-    margin-left: 0;
-    padding-left: 35px;
-    font-family: "Roboto Condensed", sans-serif;
-    font-weight: bold;
-    color: #050505;
-  }
-  .nav-link {
-    font-family: "Roboto Condensed", sans-serif;
-    color: #050505;
-  }
-  .nav-link:hover {
-    color: #fff; 
-    background-color: rgb(204, 219, 253); 
-  }
-  .btn-outline-primary {
-    border-color: var(--color1); 
-    color: var(--color1);      
-  }
-  .btn-outline-primary:hover {
-    background-color: var(--color1); 
-    color: black;                   
-    border-color: var(--color1);     
-  }
+.navbar {
+  background-color: rgb(171, 196, 255);
+  font-size: 1.2rem;
+}
+
+.navbar-brand {
+  margin-left: 0;
+  padding-left: 35px;
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: bold;
+  color: #050505;
+}
+
+.nav-link {
+  font-family: "Roboto Condensed", sans-serif;
+  color: #050505;
+}
+
+.nav-link:hover {
+  color: #fff;
+  background-color: rgb(204, 219, 253);
+}
+
+.btn-outline-primary {
+  border-color: var(--color1);
+  color: var(--color1);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--color1);
+  color: black;
+  border-color: var(--color1);
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -1px; /* Ajuste fino para evitar espacio */
+}
+
+/* Mostrar submenús al pasar el mouse */
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
 
 /* Estilo para el Carrusel */
 #carouselIndex {

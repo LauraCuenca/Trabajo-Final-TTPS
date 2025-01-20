@@ -1,0 +1,58 @@
+<div class="container mt-5">
+  <% if @product.present? %>
+  <div class="card shadow">
+    <div class="card-body">
+      <h1 class="mb-4">Editar Producto</h1>
+      <%= form_with model: @product, local: true do |form| %>
+        <div class="mb-3">
+          <%= form.label :name, 'Nombre' %>
+          <%= form.text_field :name, class: 'form-control', required: true %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :description, 'Descripción' %>
+          <%= form.text_area :description, class: 'form-control', required: true %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :price, 'Precio' %>
+          <%= form.number_field :price, class: 'form-control', required: true, step: '0.01' %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :stock, 'Stock' %>
+          <%= form.number_field :stock, class: 'form-control', required: true %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :category, 'Categoría' %>
+          <%= form.text_field :category, class: 'form-control' %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :size, 'Talle' %>
+          <%= form.text_field :size, class: 'form-control' %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :color, 'Color' %>
+          <%= form.text_field :color, class: 'form-control' %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :inventory_entry_date, 'Fecha de Ingreso' %>
+          <%= form.date_field :inventory_entry_date, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.submit 'Actualizar Producto', class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+
+      <%= link_to 'Volver a productos', products_path, class: 'btn btn-secondary mt-3' %>
+    </div>
+  </div>
+    <% else %>
+    <p>@product es nil. No se encontró el producto.</p>
+  <% end %>
+</div>

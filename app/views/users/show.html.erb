@@ -1,0 +1,71 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Mi Perfil</h1>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Información de Cuenta</h2>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Correo Electrónico</th>
+            <th>Fecha de Ingreso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @user.username %></td>
+            <td><%= @user.phone %></td>
+            <td><%= @user.email %></td>
+            <td><%= @user.joined_on&.strftime("%d/%m/%Y") %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <% if @user.errors.any? %>
+      <div class="alert alert-danger">
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <h3 class="mt-4">Editar Información</h3>
+      <%= form_with(model: @user, url: user_path(@user), method: :patch, class: "needs-validation") do |form| %>
+        <div class="form-group">
+          <%= form.label :username, "Nombre", class: "form-label" %>
+          <%= form.text_field :username, value: @user.username, class: "form-control", required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :phone, "Teléfono", class: "form-label" %>
+          <%= form.text_field :phone, value: @user.phone, class: "form-control", required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :email, "Correo Electrónico", class: "form-label" %>
+          <%= form.email_field :email, value: @user.email, class: "form-control", required: true %>
+        </div>
+
+        <div class="form-group text-center">
+          <%= form.submit "Guardar Cambios", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+      <hr>
+
+      <% if @user.active? %>
+        <div class="text-center">
+          <%= button_to "Desactivar Cuenta", deactivate_user_path(@user), method: :patch, class: "btn btn-danger", data: { confirm: '¿Estás seguro de que deseas desactivar tu cuenta?' } %>
+        </div>
+      <% else %>
+        <p class="text-center text-danger">Tu cuenta está desactivada.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

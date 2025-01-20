@@ -1,27 +1,28 @@
 Rails.application.routes.draw do
-  # Defines the root path route ("/")
-  root "home#index"
+  # Rutas para productos
+  resources :products
 
-  # Defines the routes for the home controller
-  get "productos/listar"
-  get "productos/agregar"
-  get "productos/modificar"
-  get "productos/eliminar"
-  get "productos/cambiar_stock"
+  # Rutas para ventas
+  resources :sales
+   get "sales/record", to: "sales#record", as: "record_sale"
 
-  # Defines the routes for the ventas controller
-  get "ventas/listar"
-  get "ventas/asentar"
-  get "ventas/cancelar"
+  # Rutas para usuarios
+  resources :users, only: [ :index, :new, :create, :show, :update ] do
+    member do
+      patch :deactivate
+      patch :reactivate
+    end
+  end
 
-  # Defines the routes for the users controller
-  resources :users, only: [ :index, :new, :create ]
-  get "users/new", to: "users#new", as: "users_new"
-
+  # Rutas de autenticación con Devise
   devise_for :users, path: "", path_names: {
-  sign_in: "login",
-  sign_out: "logout",
-  sign_up: "register"
-}
-  get "up" => "rails/health#show", as: :rails_health_check
+    sign_in: "login",
+    sign_out: "logout"
+  }
+
+  # Ruta de salud del sistema
+  get "up", to: "rails/health#show", as: :rails_health_check
+
+  # Ruta raíz
+  root "home#index"
 end

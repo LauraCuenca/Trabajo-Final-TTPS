@@ -1,0 +1,60 @@
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card shadow" style="max-width: 600px; width: 100%;">
+     <div class="card-header text-center" style="background-color: rgb(204, 219, 253); color: black;">
+     <h4 style="font-weight: bold;">Agregar Producto</h4>
+     </div>
+
+    <div class="card-body">
+      <%= form_with(model: @product, local: true, html: { class: "form-container" }) do |form| %>
+        <div class="mb-3">
+          <%= form.label :name, "Nombre", class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Ingrese el nombre del producto" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :description, "Descripción", class: "form-label" %>
+          <%= form.text_area :description, class: "form-control", rows: 3, placeholder: "Describa el producto" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :price, "Precio", class: "form-label" %>
+          <%= form.number_field :price, class: "form-control", step: 0.01, placeholder: "Ingrese el precio" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :stock, "Stock", class: "form-label" %>
+          <%= form.number_field :stock, class: "form-control", placeholder: "Cantidad en inventario" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :category, "Categoría", class: "form-label" %>
+          <%= form.text_field :category, class: "form-control", placeholder: "Categoría del producto" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :size, "Talle (opcional)", class: "form-label" %>
+          <%= form.text_field :size, class: "form-control", placeholder: "Ej: S, M, L, XL" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :color, "Color (opcional)", class: "form-label" %>
+          <%= form.text_field :color, class: "form-control", placeholder: "Ingrese el color del producto" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :inventory_entry_date, "Fecha de ingreso al inventario", class: "form-label" %>
+          <%= form.date_field :inventory_entry_date, class: "form-control" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :images, "Subir Imágenes", class: "form-label" %>
+          <%= form.file_field :images, multiple: true, class: "form-control" %>
+        </div>
+        
+        <div class="text-center">
+          <%= form.submit "Crear Producto", class: "btn btn-success" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
