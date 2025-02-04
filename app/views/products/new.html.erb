@@ -28,9 +28,9 @@
         
         <div class="mb-3">
           <%= form.label :category, "Categoría", class: "form-label" %>
-          <%= form.text_field :category, class: "form-control", placeholder: "Categoría del producto" %>
+          <%= form.select :category, options_for_select(['Mujer-Ropa', 'Mujer-Calzado', 'Hombre-Ropa', 'Hombre-Calzado', 'Niños-Ropa', 'Niños-Calzado'], selected: @product.category), class: "form-control" %>
         </div>
-        
+
         <div class="mb-3">
           <%= form.label :size, "Talle (opcional)", class: "form-label" %>
           <%= form.text_field :size, class: "form-control", placeholder: "Ej: S, M, L, XL" %>

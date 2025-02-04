@@ -1,32 +1,49 @@
 <div class="container mt-5">
   <div class="card shadow">
     <img src="<%= @product.images.attached? ? url_for(@product.images.first) : 'default_image_url.jpg' %>" 
-         class="card-img-top img-thumbnail w-50 mx-auto d-block" 
-         alt="<%= @product.name %>">
+         class="img-fluid img-thumbnail mx-auto d-block" 
+         alt="<%= @product.name %>" 
+         style="max-height: 550px; width: auto; object-fit: cover;">
 
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center">
         <h1 class="mb-0"><%= @product.name %></h1>
-<%= form_with model: @product, url: product_path(@product), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar este producto?' } do |form| %>
-  <%= form.submit 'Eliminar', class: 'btn btn-danger btn-sm' %>
-<% end %>
+
+        <% if current_user && current_user.has_any_role?(:administrador, :gerente, :empleado) %>
+          <%= form_with model: @product, url: product_path(@product), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar este producto?' } do |form| %>
+            <%= form.submit 'Eliminar', class: 'btn btn-danger btn-sm' %>
+          <% end %>
+        <% end %>
 
       </div>
+
       <p class="text-primary font-weight-bold"><%= number_to_currency(@product.price, unit: "$", separator: ",", delimiter: ".") %></p>
       <p><%= @product.description %></p>
-      <p><strong>Categoría:</strong> <%= @product.category %></p>
       <p><strong>Talle:</strong> <%= @product.size.presence || "No especificado" %></p>
       <p><strong>Color:</strong> <%= @product.color.presence || "No especificado" %></p>
       <p><strong>Stock:</strong> <%= @product.stock %></p>
+
+      <% if current_user && current_user.has_any_role?(:administrador, :gerente, :empleado) %>
+      <p><strong>Categoría:</strong> <%= @product.category %></p>
       <p><strong>Fecha de ingreso:</strong> <%= @product.inventory_entry_date&.strftime("%d/%m/%Y") || "Fecha no disponible" %></p>
       <p><strong>Última modificación:</strong> <%= @product.updated_at.strftime("%d/%m/%Y %H:%M") %></p>
+      <% end %>
+
       <% if @product.deleted_at.present? %>
         <p><strong>Fecha de eliminación:</strong> <%= @product.deleted_at.strftime("%d/%m/%Y %H:%M") %></p>
       <% end %>
-
-      <%= link_to 'Editar', edit_product_path(@product), class: 'btn btn-primary me-2' %>
-      <%= link_to 'Volver a productos', products_path, class: 'btn btn-secondary' %>
+      
+      <div class="mi-contenedor-de-botones">
+      <% if current_user && current_user.has_any_role?(:administrador, :gerente, :empleado) %>
+        <%= link_to 'Editar', edit_product_path(@product), class: 'btn btn-primary me-2' %>
+      <% end %>
+      </div>
+      
+        <div class="mi-contenedor-de-botones">
+         <%= link_to 'Volver', request.referer || products_path, class: 'btn btn-secondary btn-custom-small' %>
+        </div>
     </div>
   </div>
 </div>
+
 

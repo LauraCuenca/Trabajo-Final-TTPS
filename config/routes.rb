@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # Rutas para productos
-  resources :products
+  resources :products, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
+  get "/productos/buscar", to: "products#search", as: :buscar_productos
+  get "productos/:category(/:subcategory)", to: "products#category", as: "filtered_products"
 
   # Rutas para ventas
   resources :sales

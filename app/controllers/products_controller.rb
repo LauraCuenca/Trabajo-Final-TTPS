@@ -1,24 +1,11 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [ :edit, :update, :create ]
 
   # GET /products
   def index
     @products = Product.where(deleted_at: nil)
-    case params[:order]
-    when "name_asc"
-      @products = @products.order(:name)
-    when "name_desc"
-      @products = @products.order(name: :desc)
-    when "price_asc"
-      @products = @products.order(:price)
-    when "price_desc"
-      @products = @products.order(price: :desc)
-    when "recent"
-      @products = @products.order(inventory_entry_date: :desc)
-    when "oldest"
-      @products = @products.order(inventory_entry_date: :asc)
-    end
+    @products = apply_order(@products)
     @products = @products.page(params[:page]).per(9)
   end
 
@@ -64,6 +51,30 @@ class ProductsController < ApplicationController
     end
   end
 
+  def category
+    @products = Product.where(deleted_at: nil)
+
+    if params[:category].present?
+      if params[:category] == "nuevos"
+        @products = @products.order(created_at: :desc).limit(6)
+      else
+        category, subcategory = params[:category].split("-")
+        @products = @products.where("category LIKE ?", "#{category}-#{subcategory}%")
+      end
+    end
+
+    @products = apply_order(@products)
+    @products = @products.page(params[:page]).per(9)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @products }
+      format.jpeg do
+        render plain: "Formato no soportado", status: :not_acceptable
+      end
+    end
+  end
+
   # DELETE /products/1
   def destroy
     if @product.update(deleted_at: Time.current)
@@ -72,6 +83,20 @@ class ProductsController < ApplicationController
       Rails.logger.debug "Error al intentar eliminar el producto: #{@product.errors.full_messages}"
       redirect_to products_path, alert: "No se pudo eliminar el producto."
     end
+  end
+
+  def search
+    @query = params[:query]
+    if @query.present?
+      @products = Product.where("LOWER(name) LIKE ? OR LOWER(description) LIKE ? OR LOWER(category) LIKE ?",
+                                "%#{@query.downcase}%", "%#{@query.downcase}%", "%#{@query.downcase}%")
+                        .where(deleted_at: nil)
+    else
+      @products = Product.where(deleted_at: nil)
+    end
+
+    @products = apply_order(@products)
+    @products = @products.page(params[:page]).per(9)
   end
 
   private
@@ -95,5 +120,24 @@ class ProductsController < ApplicationController
       :inventory_entry_date,
       images: []
     )
+  end
+
+  def apply_order(products)
+    case params[:order]
+    when "name_asc"
+      products.order(:name)
+    when "name_desc"
+      products.order(name: :desc)
+    when "price_asc"
+      products.order(:price)
+    when "price_desc"
+      products.order(price: :desc)
+    when "recent"
+      products.order(inventory_entry_date: :desc)
+    when "oldest"
+      products.order(inventory_entry_date: :asc)
+    else
+      products.order(:name)
+    end
   end
 end

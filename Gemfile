@@ -19,7 +19,6 @@ gem "jbuilder"
 
 gem "devise"
 gem "rolify"
-gem "cancancan"
 gem "normalize_attributes"
 gem "kaminari"
 

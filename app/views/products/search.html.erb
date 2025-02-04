@@ -1,0 +1,38 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Resultados de la búsqueda para: <span class="highlight-query"><%= params[:query] %></span></h1>
+    <%= form_with url: products_path, method: :get, local: true do |form| %>
+      <%= form.select :order, [
+          ['Nombre (A-Z)', 'name_asc'],
+          ['Nombre (Z-A)', 'name_desc'],
+          ['Precio (Menor a Mayor)', 'price_asc'],
+          ['Precio (Mayor a Menor)', 'price_desc'],
+          ['Más recientes', 'recent'],
+          ['Más antiguos', 'oldest']
+      ], selected: params[:order], class: 'form-control' %>
+      <%= form.submit 'Ordenar', class: 'btn btn-primary ml-2' %>
+    <% end %>
+  </div>
+
+  <% if @products.present? %>
+    <div class="row">
+      <% @products.each do |product| %>
+        <div class="col-md-4 mb-4">
+          <div class="card shadow-sm">
+            <% if product.images.attached? %>
+              <%= image_tag product.images.first, class: "card-img-top small-image", alt: product.name %>
+            <% end %>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text"><%= product.description %></p>
+              <p class="card-text">$<%= number_with_delimiter(product.price, delimiter: ".", separator: ",") %></p>
+              <%= link_to 'Ver detalles', product_path(product), class: "btn btn-primary" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %> 
+    <p>No se encontraron productos para la búsqueda: <span class="highlight-query"><%= params[:query] %></span></p>
+  <% end %>
+</div>

@@ -14,6 +14,7 @@ class Product < ApplicationRecord
 
 
   before_create :set_inventory_entry_date
+  before_save :zero_stock_if_deleted
 
   def soft_delete
     update(deleted_at: Time.current)
@@ -23,5 +24,11 @@ class Product < ApplicationRecord
 
   def set_inventory_entry_date
     self.inventory_entry_date ||= Time.current
+  end
+
+  def zero_stock_if_deleted
+    if deleted_at_changed? && deleted_at.present?
+      self.stock = 0
+    end
   end
 end

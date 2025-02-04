@@ -10,7 +10,6 @@ class User < ApplicationRecord
   validates :password, presence: true, confirmation: true, on: :create
   validates :joined_on, presence: true
   validate :joined_on_not_in_the_future
-  validate :role_is_not_admin, on: :create
 
   # Roles
   rolify

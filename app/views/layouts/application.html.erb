@@ -35,16 +35,15 @@
         Productos
       </a>
       <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-        <li><a class="dropdown-item" href="/productos/nuevos">Nuevos</a></li>
-        <li><a class="dropdown-item" href="/productos/ofertas">Ofertas</a></li>
+        <li><a class="dropdown-item" href="<%= filtered_products_path('nuevos') %>">Nuevos</a></li>
 
         <li class="dropdown-submenu"> 
           <a class="dropdown-item dropdown-toggle" href="#" id="mujerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Mujer
           </a>
           <ul class="dropdown-menu" aria-labelledby="mujerDropdown">
-            <li><a class="dropdown-item" href="/productos/mujer/ropa">Ropa</a></li>
-            <li><a class="dropdown-item" href="/productos/mujer/zapatos">Calzado</a></li>
+            <li><a class="dropdown-item" href="<%= filtered_products_path('Mujer-Ropa') %>">Ropa</a></li>
+            <li><a class="dropdown-item" href="<%= filtered_products_path('Mujer-Calzado') %>">Calzado</a></li>
           </ul>
         </li>
 
@@ -53,8 +52,8 @@
             Hombre
           </a>
           <ul class="dropdown-menu" aria-labelledby="hombreDropdown">
-            <li><a class="dropdown-item" href="/productos/hombre/ropa">Ropa</a></li>
-            <li><a class="dropdown-item" href="/productos/hombre/zapatos">Calzado</a></li>
+            <li><a class="dropdown-item" href="<%= filtered_products_path('Hombre-Ropa') %>">Ropa</a></li>
+            <li><a class="dropdown-item" href="<%= filtered_products_path('Hombre-Calzado') %>">Calzado</a></li>
           </ul>
         </li>
 
@@ -63,8 +62,8 @@
             Niños
           </a>
           <ul class="dropdown-menu" aria-labelledby="ninosDropdown">
-            <li><a class="dropdown-item" href="/productos/ninos/ropa">Ropa</a></li>
-            <li><a class="dropdown-item" href="/productos/ninos/accesorios">Accesorios</a></li>
+            <li><a class="dropdown-item" href="<%= filtered_products_path('Niños-Ropa') %>">Ropa</a></li>
+            <li><a class="dropdown-item" href="<%= filtered_products_path('Niños-Calzado') %>">Calzado</a></li>
           </ul>
         </li>
       </ul>
@@ -73,15 +72,16 @@
 </div>
 
 
-  <form class="d-flex mx-auto">
-   <input class="form-control me-2" type="search" placeholder="Buscar productos" aria-label="Buscar">
-   <button class="btn btn-outline-primary" type="submit">Buscar</button>
-  </form>
+<form class="d-flex mx-auto" method="get" action="<%= buscar_productos_path %>">
+  <input class="form-control me-2" type="search" name="query" placeholder="Buscar productos" value="<%= params[:query] %>" aria-label="Buscar">
+  <button class="btn btn-outline-primary" type="submit">Buscar</button>
+</form>
+
 
 
  <ul class="navbar-nav ms-auto">
         <% if user_signed_in? %>
-          <% if current_user.has_any_role?(:Administrador, :Gerente, :Empleado) %>
+          <% if current_user.has_any_role?(:administrador, :gerente, :empleado) %>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Admin de Ventas
@@ -106,11 +106,11 @@
               Usuario
             </a>
             <ul class="dropdown-menu" aria-labelledby="userDropdown">
-              <% if current_user.has_any_role?(:Administrador, :Gerente) %>
+              <% if current_user.has_any_role?(:administrador, :gerente) %>
                 <li><%= link_to 'Registrar usuario', new_user_path, class: "dropdown-item" %></li>
               <% end %>
               <li><%= link_to 'Ver Perfil', user_path(current_user), class: "dropdown-item" %></li>
-              <% if current_user.has_role?(:Administrador) %>
+              <% if current_user.has_role?(:administrador) %>
                 <li><%= link_to 'Lista de Usuarios', users_path, class: "dropdown-item" %></li>
               <% end %>
               <li><%= link_to 'Cerrar sesión', destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %></li>

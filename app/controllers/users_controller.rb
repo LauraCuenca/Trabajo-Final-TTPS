@@ -56,7 +56,7 @@ class UsersController < ApplicationController
   end
 
   def deactivate
-    if current_user.has_role?(:Administrador)
+    if current_user.has_role?(:administrador)
       if @user.update(active: false, password: generate_random_password)
         redirect_to users_path, notice: "La cuenta ha sido desactivada."
       else
@@ -80,23 +80,23 @@ class UsersController < ApplicationController
 
 
   def assignable_roles
-    if current_user.has_role?(:Administrador)
+    if current_user.has_role?(:administrador)
       Role.all
-    elsif current_user.has_role?(:Gerente)
-      Role.where(name: [ "Gerente", "Empleado" ])
+    elsif current_user.has_role?(:gerente)
+      Role.where(name: [ "gerente", "empleado" ])
     else
       Role.none
     end
   end
 
   def verify_role_permission
-    unless current_user.has_role?(:Administrador) || current_user.has_role?(:Gerente)
+    unless current_user.has_role?(:administrador) || current_user.has_role?(:gerente)
       redirect_to root_path, alert: "No tienes permiso para registrar usuarios."
     end
   end
 
   def authorize_admin
-    unless current_user.has_role?(:Administrador)
+    unless current_user.has_role?(:administrador)
       flash[:error] = "No tienes permiso para realizar esta acción."
       redirect_to root_path
     end

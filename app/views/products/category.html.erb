@@ -1,34 +1,29 @@
 <div class="container mt-5">
-
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="text-center">Lista de Productos</h1>
-    <%= form_with url: products_path, method: :get, local: true do |form| %>
+    <%= form_with url: filtered_products_path(category: params[:category], subcategory: params[:subcategory]), method: :get, local: true do |form| %>
       <%= form.select :order, [
-                        ['Nombre (A-Z)', 'name_asc'], 
-                        ['Nombre (Z-A)', 'name_desc'], 
-                        ['Precio (Menor a Mayor)', 'price_asc'], 
-                        ['Precio (Mayor a Menor)', 'price_desc'], 
-                        ['Más recientes', 'recent'], 
-                        ['Más antiguos', 'oldest']
-                      ], 
-                      selected: params[:order], 
-                      class: 'form-control' %>
+            ['Nombre (A-Z)', 'name_asc'],
+            ['Nombre (Z-A)', 'name_desc'],
+            ['Precio (Menor a Mayor)', 'price_asc'],
+            ['Precio (Mayor a Menor)', 'price_desc'],
+            ['Más recientes', 'recent'],
+            ['Más antiguos', 'oldest']
+          ], selected: params[:order] || 'name_asc', class: 'form-control' %>
       <%= form.submit 'Ordenar', class: 'btn btn-primary ml-2' %>
     <% end %>
   </div>
 
-
   <% if @products.empty? %>
     <div class="alert alert-warning text-center">
-      <p>No hay productos disponibles en este momento.</p>
+      <p>No hay productos disponibles en esta categoría.</p>
     </div>
   <% else %>
-
     <div class="row">
       <% @products.each do |product| %>
         <div class="col-md-4 mb-4">
           <div class="card shadow-sm">
-            <img src="<%= product.images.attached? ? url_for(product.images.first) : 'default_image_url.jpg' %>" 
+            <img src="<%= product.images.attached? ? url_for(product.images.first) : 'default_image_url.jpg' %>"
                  class="card-img-top" alt="<%= product.name %>" style="max-height: 350px; width: auto; object-fit: cover; margin: auto;">
             <div class="card-body">
               <h5 class="card-title"><%= product.name %></h5>
@@ -40,8 +35,4 @@
       <% end %>
     </div>
   <% end %>
-
-  <div class="d-flex justify-content-center mt-4">
-    <%= paginate @products %>
-  </div>
 </div>

@@ -23,7 +23,7 @@ Visualización de ventas:
 Diseño responsive para garantizar una experiencia amigable en dispositivos móviles y de escritorio.
 Sistema de roles para diferenciar entre usuarios y empleados.
 Integración con Devise para manejo de autenticación.
-Relación clara entre modelos (Productos, Ventas, Empleados, etc.).
+Relación clara entre modelos (Productos, Ventas, empleados, etc.).
 
 ### ``` Tecnologías Utilizadas```
 - Lenguaje Backend: Ruby (versión 3.2.0)
@@ -67,13 +67,13 @@ rails server
 Abre tu navegador y accede a http://localhost:3000.
 ```
 ### ``` Credenciales para iniciar sesion```
-- Administrador: 
+- administrador: 
    usuario: admin@gmail.com
    contraseña: password
-- Gerente:
+- gerente:
   usuario: gerente@gmail.com
   contraseña: password
-- Empleado:
+- empleado:
   usuario: emp@gmail.com
   contraseña: password
 
