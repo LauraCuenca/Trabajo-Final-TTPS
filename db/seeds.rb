@@ -23,7 +23,7 @@ puts "Rol empleado creado: #{empleado_role.inspect}"
 # Crear usuarios
 unless User.exists?(email: 'admin@gmail.com')
   user = User.new(
-    username: "admin_uno",
+    username: "administrador_uno",
     email: 'admin@gmail.com',
     phone: "123456789",
     password: "password",
@@ -42,8 +42,8 @@ end
 
 unless User.exists?(email: 'gere@gmail.com')
   user = User.new(
-    username: "gere_uno",
-    email: 'gere@gmail.com',
+    username: "gerente_uno",
+    email: 'gerente@gmail.com',
     phone: "123456789",
     password: "password",
     password_confirmation: "password",
