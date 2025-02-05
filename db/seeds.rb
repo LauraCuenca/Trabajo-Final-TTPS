@@ -1,24 +1,30 @@
-# Eliminar todos los datos existentes
+# Desactivar la verificación de claves foráneas
+ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF;")
 puts "Eliminando datos existentes..."
 
-# Eliminar productos y sus imágenes adjuntas
+# Eliminar datos de las tablas
+SaleItem.destroy_all
+Sale.destroy_all
 Product.destroy_all
-
-# Eliminar usuarios y sus roles asociados
 User.destroy_all
-
-# Eliminar roles
 Role.destroy_all
 
-puts "Datos existentes eliminados."
+# Reiniciar la secuencia de IDs para cada tabla
+ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='sale_items';")
+ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='sales';")
+ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='products';")
+ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='users';")
+ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='roles';")
+
+# Reactivar la verificación de claves foráneas
+ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = ON;")
+
+puts "Datos eliminados y secuencias de IDs reiniciadas."
 
 # Crear roles
-admin_role = Role.find_or_create_by(name: 'administrador')
-puts "Rol administrador creado: #{admin_role.inspect}"
-gerente_role = Role.find_or_create_by(name: 'gerente')
-puts "Rol gerente creado: #{gerente_role.inspect}"
-empleado_role = Role.find_or_create_by(name: 'empleado')
-puts "Rol empleado creado: #{empleado_role.inspect}"
+Role.find_or_create_by(name: 'administrador')
+Role.find_or_create_by(name: 'gerente')
+Role.find_or_create_by(name: 'empleado')
 
 # Crear usuarios
 unless User.exists?(email: 'admin@gmail.com')
@@ -40,7 +46,7 @@ unless User.exists?(email: 'admin@gmail.com')
   end
 end
 
-unless User.exists?(email: 'gere@gmail.com')
+unless User.exists?(email: 'gerente@gmail.com')
   user = User.new(
     username: "gerente_uno",
     email: 'gerente@gmail.com',
@@ -304,4 +310,72 @@ products_data.each do |product_data|
   else
     puts "Error al crear el producto #{product.name}: #{product.errors.full_messages.to_sentence}"
   end
+end
+
+employee = User.find_by(email: 'admin@gmail.com')
+unless employee
+  puts "Error: No se encontró un empleado con el correo 'admin@gmail.com'."
+  return
+end
+
+product_1 = Product.find_by(name: 'Remera Mao')
+product_2 = Product.find_by(name: 'Zapatilla Nami')
+product_3 = Product.find_by(name: 'Musculosa Jin')
+product_4 = Product.find_by(name: 'Short Shorty')
+
+unless product_1 && product_2 && product_3 && product_4
+  puts "Error: Uno o más productos no se encontraron en la base de datos."
+  return
+end
+
+# Venta 1
+sale_1 = Sale.new(
+  client_name: 'Cliente 1',
+  date: Date.today,
+  status: 'active',
+  employee_id: employee.id,
+  total_price: 50000,
+  sale_items_attributes: [
+    {
+      product_id: product_1.id,
+      quantity: 2,
+      price: 20000
+    },
+    {
+      product_id: product_2.id,
+      quantity: 1,
+      price: 55000
+    }
+  ]
+)
+if sale_1.save
+  puts "Venta 1 creada exitosamente."
+else
+  puts "Error al crear la venta 1: #{sale_1.errors.full_messages.to_sentence}"
+end
+
+# Venta 2
+sale_2 = Sale.new(
+  client_name: 'Cliente 2',
+  date: Date.today,
+  status: 'active',
+  employee_id: employee.id,
+  total_price: 40000,
+  sale_items_attributes: [
+    {
+      product_id: product_3.id,
+      quantity: 1,
+      price: 25000
+    },
+    {
+      product_id: product_4.id,
+      quantity: 1,
+      price: 15000
+    }
+  ]
+)
+if sale_2.save
+  puts "Venta 2 creada exitosamente."
+else
+  puts "Error al crear la venta 2: #{sale_2.errors.full_messages.to_sentence}"
 end

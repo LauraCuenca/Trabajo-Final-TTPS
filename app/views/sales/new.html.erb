@@ -1,0 +1,134 @@
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card shadow" style="max-width: 800px; width: 100%;">
+    <div class="card-header text-center" style="background-color: rgb(204, 219, 253); color: black;">
+      <h4 style="font-weight: bold;">Agregar Venta</h4>
+    </div>
+
+    <div class="card-body">
+      <%= form_with(model: @sale, local: true, data: { turbo: false }) do |f| %>
+        
+        <% if @sale.errors.any? %>
+          <div class="alert alert-danger">
+            <ul>
+              <% @sale.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="mb-3">
+          <%= f.label :client_name, "Nombre del Cliente", class: "form-label" %>
+          <%= f.text_field :client_name, required: true, class: "form-control", placeholder: "Ingrese el nombre del cliente" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :date, "Fecha de la Venta", class: "form-label" %>
+          <%= f.date_field :date, required: true, class: "form-control" %>
+        </div>
+
+        <h5>Seleccionar Productos</h5>
+        <div class="mb-3">
+          <select id="product_select" class="form-control">
+            <option value="">-- Selecciona un producto --</option>
+            <% @products.each do |product| %>
+              <option value="<%= product.id %>" data-price="<%= product.price %>" data-stock="<%= product.stock %>">
+                <%= product.name %> ($<%= product.price %>) - Stock: <%= product.stock %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <input type="number" id="product_quantity" class="form-control" min="1" placeholder="Cantidad">
+        </div>
+
+        <div class="mb-3">
+          <button type="button" id="add_product" class="btn btn-primary w-100">Agregar Producto</button>
+        </div>
+
+        <h5>Productos Seleccionados</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Total</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="product_list"></tbody>
+        </table>
+
+        <div id="sale_items"></div>
+
+        <div class="text-center mt-3">
+          <%= f.submit "Guardar Venta", class: "btn btn-success" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("turbo:load", function () {
+  const productSelect = document.getElementById("product_select");
+  const quantityInput = document.getElementById("product_quantity");
+  const productList = document.getElementById("product_list");
+  const saleItemsDiv = document.getElementById("sale_items");
+
+  document.getElementById("add_product").addEventListener("click", function () {
+    const selectedOption = productSelect.options[productSelect.selectedIndex];
+    const productId = selectedOption.value;
+    const productName = selectedOption.text;
+    const productPrice = parseFloat(selectedOption.dataset.price);
+    const productStock = parseInt(selectedOption.dataset.stock);
+    const quantity = parseInt(quantityInput.value);
+
+    if (!productId || quantity <= 0 || quantity > productStock) {
+      alert("Selecciona un producto válido y una cantidad adecuada.");
+      return;
+    }
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${productName}</td>
+      <td>${quantity}</td>
+      <td>$${productPrice}</td>
+      <td>$${(productPrice * quantity).toFixed(2)}</td>
+      <td><button type="button" class="remove_product">Eliminar</button></td>
+    `;
+    productList.appendChild(row);
+
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "sale[sale_items_attributes][][product_id]";
+    hiddenInput.value = productId;
+    saleItemsDiv.appendChild(hiddenInput);
+
+    const hiddenQuantity = document.createElement("input");
+    hiddenQuantity.type = "hidden";
+    hiddenQuantity.name = "sale[sale_items_attributes][][quantity]";
+    hiddenQuantity.value = quantity;
+    saleItemsDiv.appendChild(hiddenQuantity);
+
+    const hiddenPrice = document.createElement("input");
+    hiddenPrice.type = "hidden";
+    hiddenPrice.name = "sale[sale_items_attributes][][price]"; 
+    hiddenPrice.value = productPrice;
+    console.log('Precio:', productPrice);
+    saleItemsDiv.appendChild(hiddenPrice);
+
+    productSelect.value = "";
+    quantityInput.value = "";
+
+    row.querySelector(".remove_product").addEventListener("click", function () {
+      row.remove();
+      hiddenInput.remove();
+      hiddenQuantity.remove();
+      hiddenPrice.remove();
+    });
+  });
+});
+</script>

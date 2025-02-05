@@ -2,28 +2,22 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
   before_action :authenticate_user!, only: [ :edit, :update, :create ]
 
-  # GET /products
   def index
     @products = Product.where(deleted_at: nil)
     @products = apply_order(@products)
     @products = @products.page(params[:page]).per(9)
   end
 
-  # GET /products/1
   def show
   end
 
-  # GET /products/new
   def new
     @product = Product.new
   end
 
-  # GET /products/1/edit
   def edit
-    # set_product ya se ejecutó, @product está disponible
   end
 
-  # POST /products
   def create
     @product = Product.new(product_params)
 
@@ -38,7 +32,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /products/1
   def update
     respond_to do |format|
       if @product.update(product_params)
@@ -75,7 +68,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  # DELETE /products/1
   def destroy
     if @product.update(deleted_at: Time.current)
       redirect_to products_path, notice: "Producto eliminado correctamente."

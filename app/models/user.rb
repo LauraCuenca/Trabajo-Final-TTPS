@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  # Devise Modules
+  has_many :sales_as_employee, class_name: "Sale", foreign_key: "employee_id"
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 

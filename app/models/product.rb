@@ -12,7 +12,7 @@ class Product < ApplicationRecord
   validates :size, length: { maximum: 50 }, allow_blank: true
   validates :color, length: { maximum: 50 }, allow_blank: true
 
-
+  # Callbacks
   before_create :set_inventory_entry_date
   before_save :zero_stock_if_deleted
 

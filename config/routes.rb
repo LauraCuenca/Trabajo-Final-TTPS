@@ -3,10 +3,14 @@ Rails.application.routes.draw do
   resources :products, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
   get "/productos/buscar", to: "products#search", as: :buscar_productos
   get "productos/:category(/:subcategory)", to: "products#category", as: "filtered_products"
+  get "/products/:id/price", to: "products#price"
 
   # Rutas para ventas
-  resources :sales
-   get "sales/record", to: "sales#record", as: "record_sale"
+  resources :sales do
+    member do
+      patch :cancel
+    end
+  end
 
   # Rutas para usuarios
   resources :users, only: [ :index, :new, :create, :show, :update ] do

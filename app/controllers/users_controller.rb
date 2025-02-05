@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, except: [ :index, :new ]
+  before_action :set_user, except: [ :index, :new, :create ]
   before_action :authenticate_user!
   before_action :verify_role_permission, only: [ :new, :create ]
 
@@ -77,7 +77,6 @@ class UsersController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
-
 
   def assignable_roles
     if current_user.has_role?(:administrador)

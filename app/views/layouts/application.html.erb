@@ -87,8 +87,8 @@
                 Admin de Ventas
               </a>
               <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                <%= link_to 'Agregar Venta', new_sale_path, class: 'dropdown-item' %>
                 <%= link_to 'Listar Ventas', sales_path, class: 'dropdown-item' %>
-                <%= link_to 'Asentar Ventas', record_sale_path, class: 'dropdown-item' %>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -122,7 +122,7 @@
           </li>
         <% end %> 
         <li class="nav-item">
-          <a class="nav-link" href="/carrito">
+          <a class="nav-link" href="#">
             <i class="fas fa-shopping-cart"></i>
           </a>
         </li>
@@ -154,7 +154,6 @@
     <footer>
       <div class="container">
         <p>&copy; 2024 Avivas Sport. Todos los derechos reservados.</p>
-        <p><a href="#">Nosotros</a> | <a href="#">Contacto</a></p>
       </div>
     </footer>
   </body>

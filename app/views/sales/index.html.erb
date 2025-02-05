@@ -1,0 +1,61 @@
+<div class="container my-4">
+  <h1>Listado de Ventas</h1>
+
+  <% if @sales.empty? %>
+    <div class="alert alert-warning text-center">
+      No hay ventas asentadas.
+    </div>
+  <% else %>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Cliente</th>
+          <th>Total</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sales.each do |sale| %>
+          <tr>
+            <td><%= sale.date.strftime("%m-%d-%Y") %></td>
+            <td><%= sale.client_name %></td>
+            <td><%= number_to_currency(sale.total_price) %></td>
+            <td>
+              <%= sale.status == 'active' ? 'Activo' : sale.status.capitalize %>
+            </td>
+            <td>
+              <% if sale.status == 'active' %>
+                <%= button_to "Cancelar", cancel_sale_path(sale), method: :patch, data: { confirm: "¿Estás seguro de que deseas cancelar esta venta?" }, class: "btn btn-danger" %>
+              <% else %>
+                Cancelada
+              <% end %>
+            </td>
+          </tr>
+
+          <% sale.sale_items.each do |item| %>
+            <tr class="table-secondary">
+              <td></td> 
+              <td>
+                <strong>Producto:</strong> <%= item.product&.name || 'Producto no disponible' %>
+                <br>
+                <strong>Cantidad:</strong> <%= item.quantity %>
+                <br>
+                <strong>Precio:</strong> <%= number_to_currency(item.product&.price) || 'Precio no disponible' %>
+              </td>
+              <td colspan="3" class="text-center">
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <div class="pagination">
+    <%= paginate @sales %>
+  </div>
+
+  <%= link_to "Nueva Venta", new_sale_path, class: "btn btn-primary border" %>
+</div>

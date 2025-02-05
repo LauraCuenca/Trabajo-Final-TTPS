@@ -1,6 +1,8 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="text-center">Lista de Productos</h1>
+
+    <% unless params[:category] == "nuevos" %>
     <%= form_with url: filtered_products_path(category: params[:category], subcategory: params[:subcategory]), method: :get, local: true do |form| %>
       <%= form.select :order, [
             ['Nombre (A-Z)', 'name_asc'],
@@ -12,6 +14,9 @@
           ], selected: params[:order] || 'name_asc', class: 'form-control' %>
       <%= form.submit 'Ordenar', class: 'btn btn-primary ml-2' %>
     <% end %>
+    <% end %>
+
+
   </div>
 
   <% if @products.empty? %>
