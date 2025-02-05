@@ -2,6 +2,8 @@
 ### ``` TTPS - Opcion Ruby```
 Una tienda online de ropa con gestión de empleados.
 Este proyecto fue desarrollado como parte del trabajo final integrador de la materia TTPS. Utiliza Ruby on Rails como framework principal.
+![image](https://github.com/user-attachments/assets/5002c8cf-b20c-4b26-98c4-ee60021b5faf)
+
 
 ### ```Descripción del Proyecto```
 Este proyecto es una tienda online de ropa que permite a los administradores gestionar productos y empleados, y a los clientes, navegar por los productos.
