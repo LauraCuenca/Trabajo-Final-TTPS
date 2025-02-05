@@ -59,6 +59,10 @@ Crea y migra la base de datos:
 rails db:create
 rails db:migrate
 ```
+Carga los datos:
+```bash
+rails db:seed
+```
 Inicia el servidor:
 ```bash
 rails server
