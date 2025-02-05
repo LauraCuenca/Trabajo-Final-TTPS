@@ -1,6 +1,5 @@
 # Trabajo Practico Final Integrador
 ### ``` TTPS - Opcion Ruby```
-<br>
 Una tienda online de ropa con gestión de empleados.
 Este proyecto fue desarrollado como parte del trabajo final integrador de la materia TTPS. Utiliza Ruby on Rails como framework principal.
 
