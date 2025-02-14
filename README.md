@@ -27,7 +27,7 @@ Relación clara entre modelos (Productos, Ventas, Usuarios, Roles).
 ### ``` Tecnologías Utilizadas```
 - Lenguaje Backend: Ruby (versión 3.2.0)
 - Framework: Ruby on Rails (versión 7.x)
-- Base de Datos: PostgreSQL
+- Base de Datos: SQLite
 - Front-End: HTML5, CSS3, Bootstrap
 - Autenticación: Devise
 - Otros:
